@@ -21,13 +21,19 @@
       <h2>Sequential</h2>
       <div class="image-grid">
         <div class="image-item">
+          <a href="images/BatmanPage1.png" class="lightbox-link">
           <img src="images/BatmanPage1.png" alt="Photo 1">
+         </a>
         </div>
         <div class="image-item">
+          <a href="images/BatmanPage2.png" class="lightbox-link">
           <img src="images/BatmanPage2.png" alt="Photo 2">
+          </a>
         </div>
         <div class="image-item">
+          <a href="images/BatmanPage3.png" class="lightbox-link">
           <img src="images/BatmanPage3.png" alt="Photo 3">
+         </a>
         </div>
       </div>
               <p class="section-description"> Rhythmic pacing to build the tension and release of scenes has become very important to me (as influenced Will Eisner and Frank Miller on DKR). Cinematic camera techniques have also become of great interest to me (as influenced by Katsuhiro Otomo and Frank Quitely as well as filmmakers like Pier Pasolini, Robert Altman, Dario Argento, and many more).</p>
@@ -35,16 +41,22 @@
 
     <!-- Section 2 -->
     <section class="portfolio-section">
-      <h2>Single Pages</h2>
+      <h2>Isolated Sequential</h2>
       <div class="image-grid">
         <div class="image-item">
+          <a href="images/WonderWomanWaiting.png" class="lightbox-link">
           <img src="images/WonderWomanWaiting.png" alt="Illustration 1">
+          </a>
         </div>
         <div class="image-item">
+           <a href="images/HulkandWidow.png" class="lightbox-link">
           <img src="images/HulkandWidow.png" alt="Illustration 2">
+          </a>
         </div>
         <div class="image-item">
+           <a href="images/images/PoisonIvy.png" class="lightbox-link">
           <img src="images/PoisonIvy.png" alt="Illustration 3">
+          </a>
         </div>
       </div>
                <p class="section-description">Combining the stle of the Ashcan realists with classic comics is of great interest to me. It's little known that the Ashcan school, a fine art movement with their roots in impressionism, realism and cartooning, was the genesis point of gag cartoons but they were also a deep influence on the style of early American comics, both humorous and serious. Alex Toth prescribed a "documentarian impressionist" style for comics, the exact mission statment of Robert Henri, the father of the Ashcan movement.</p>
@@ -55,13 +67,19 @@
       <h2>Illustration</h2>
       <div class="image-grid">
         <div class="image-item">
+          <a href="images/images/PoisonIvy.png" class="lightbox-link">
           <img src="images/design1.jpg" alt="Design 1">
+            </a>
         </div>
         <div class="image-item">
+          <a href="images/images/PoisonIvy.png" class="lightbox-link">
           <img src="images/design2.jpg" alt="Design 2">
+            </a>
         </div>
         <div class="image-item">
+          <a href="images/images/PoisonIvy.png" class="lightbox-link">
           <img src="images/design3.jpg" alt="Design 3">
+            </a>
         </div>
       </div>
                     <p class="section-description"></p>
@@ -69,6 +87,26 @@
   </main>
 
   </div>
+  <div id="lightbox-overlay">
+  <img id="lightbox-image" src="" alt="">
+</div>
+  <script>
+const lightboxOverlay = document.getElementById('lightbox-overlay');
+const lightboxImage = document.getElementById('lightbox-image');
+const links = document.querySelectorAll('.lightbox-link');
+
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();             // prevent default link behavior
+    lightboxImage.src = link.href;  // set full-size image
+    lightboxOverlay.style.display = 'flex'; // show overlay
+  });
+});
+
+lightboxOverlay.addEventListener('click', () => {
+  lightboxOverlay.style.display = 'none';  // hide overlay
+});
+</script>
 </body>
   
   <footer>
