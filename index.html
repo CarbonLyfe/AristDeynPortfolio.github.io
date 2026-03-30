@@ -95,7 +95,7 @@
   <footer>
     <p>© Arist Deyn. All rights reserved.</p>
   </footer>
-
+  
 <!-- Lightbox overlay -->
 <div id="lightbox-overlay">
   <img id="lightbox-image" src="" alt="Expanded view">
@@ -106,12 +106,7 @@ const overlay = document.getElementById('lightbox-overlay');
 const img = document.getElementById('lightbox-image');
 const links = document.querySelectorAll('.lightbox-link');
 
-let scale = 1;      // zoom level
-let posX = 0;       // horizontal translation
-let posY = 0;       // vertical translation
-let isDragging = false;
-let startX = 0;
-let startY = 0;
+let scale = 1;
 
 // Open lightbox
 links.forEach(link => {
@@ -119,50 +114,39 @@ links.forEach(link => {
     e.preventDefault();
     img.src = link.href;
     scale = 1;
-    posX = 0;
-    posY = 0;
-    img.style.transform = `scale(${scale}) translate(0px, 0px)`;
+    img.style.transform = `scale(${scale})`;
     overlay.style.display = 'flex';
+    img.style.transformOrigin = 'center center'; // reset origin
   });
 });
 
 // Close lightbox
 overlay.addEventListener('click', e => {
-  if (e.target !== img) { // only close if clicking outside image
+  if (e.target !== img) {
     overlay.style.display = 'none';
     scale = 1;
-    posX = 0;
-    posY = 0;
-    img.style.transform = `scale(1) translate(0px,0px)`;
+    img.style.transform = `scale(1)`;
   }
 });
 
-// Zoom with scroll
+// Zoom around cursor
 overlay.addEventListener('wheel', e => {
   e.preventDefault();
+  const rect = img.getBoundingClientRect();
+
+  // Mouse position relative to image
+  const offsetX = e.clientX - rect.left;
+  const offsetY = e.clientY - rect.top;
+
+  // Set transform-origin to mouse position
+  img.style.transformOrigin = `${offsetX}px ${offsetY}px`;
+
+  // Adjust scale
   const delta = e.deltaY < 0 ? 0.1 : -0.1;
   scale += delta;
-  scale = Math.min(Math.max(scale, 0.5), 3); // clamp between 0.5 and 3
-  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+  scale = Math.min(Math.max(scale, 0.5), 3); // clamp scale
+  img.style.transform = `scale(${scale})`;
 }, { passive: false });
-
-// Drag to move
-img.addEventListener('mousedown', e => {
-  isDragging = true;
-  startX = e.clientX - posX;
-  startY = e.clientY - posY;
-});
-
-document.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  posX = e.clientX - startX;
-  posY = e.clientY - startY;
-  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-});
 </script>
 </body>
 </html>
