@@ -96,85 +96,60 @@
     <p>© Arist Deyn. All rights reserved.</p>
   </footer>
   
-<!-- Lightbox overlay -->
-<div id="lightbox-overlay">
-  <img id="lightbox-image" src="" alt="">
-</div>
-
-<!-- Lightbox script -->
 <script>
-const lightboxOverlay = document.getElementById('lightbox-overlay');
-const lightboxImage = document.getElementById('lightbox-image');
+const overlay = document.getElementById('lightbox-overlay');
+const img = document.getElementById('lightbox-image');
 const links = document.querySelectorAll('.lightbox-link');
 
 let scale = 1;
-let translateX = 0;
-let translateY = 0;
 
 // Open lightbox
 links.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    lightboxImage.src = link.href;
-    lightboxOverlay.style.display = 'flex';
-
-    // reset transform when opening
+    img.src = link.href;
     scale = 1;
-    translateX = 0;
-    translateY = 0;
-    lightboxImage.style.transform = 'translate(0,0) scale(1)';
+    img.style.transform = 'scale(1)';
+    img.style.transformOrigin = 'center center';
+    overlay.style.display = 'flex';
   });
 });
 
 // Close lightbox
-lightboxOverlay.addEventListener('click', () => {
-  lightboxOverlay.style.display = 'none';
-  scale = 1;
-  translateX = 0;
-  translateY = 0;
-  lightboxImage.style.transform = 'translate(0,0) scale(1)';
+overlay.addEventListener('click', e => {
+  if (e.target !== img) {
+    overlay.style.display = 'none';
+    scale = 1;
+    img.style.transform = 'scale(1)';
+    img.style.transformOrigin = 'center center';
+  }
 });
 
-// Zoom with scroll wheel around cursor
-lightboxOverlay.addEventListener('wheel', e => {
+// Zoom toward cursor WITHOUT drift
+overlay.addEventListener('wheel', e => {
   e.preventDefault();
 
-  const rect = lightboxImage.getBoundingClientRect();
-  const offsetX = e.clientX - rect.left;
-  const offsetY = e.clientY - rect.top;
+  const rect = img.getBoundingClientRect();
 
-  const delta = e.deltaY < 0 ? 0.1 : -0.1;
-  const newScale = Math.min(Math.max(scale + delta, 0.5), 1.2); // clamp scale
+  // Cursor position as percentage of image
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-  // adjust translation to keep cursor point under zoom
-  translateX -= (offsetX / scale - offsetX / newScale);
-  translateY -= (offsetY / scale - offsetY / newScale);
+  // Set zoom focal point
+  img.style.transformOrigin = `${x}% ${y}%`;
 
-  // Get overlay size
-const overlayWidth = lightboxOverlay.clientWidth;
-const overlayHeight = lightboxOverlay.clientHeight;
+  // Adjust scale
+  const delta = e.deltaY < 0 ? 0.15 : -0.15;
+  scale += delta;
+  scale = Math.min(Math.max(scale, 1), 3); // clamp between 1 and 3
 
-// Calculate new image size after scaling
-const imgWidth = rect.width * newScale;
-const imgHeight = rect.height * newScale;
+  img.style.transform = `scale(${scale})`;
 
-// Allow movement in all directions (no clipping)
-const maxX = (imgWidth - overlayWidth) / 2;
-const maxY = (imgHeight - overlayHeight) / 2;
-
-// Clamp translation so image doesn't get stuck or drift infinitely
-translateX = Math.max(Math.min(translateX, maxX), -maxX);
-translateY = Math.max(Math.min(translateY, maxY), -maxY);
-
-scale = newScale;
-lightboxImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-
-  // reset to center if fully zoomed out
+  // Reset cleanly when zoomed out
   if (scale <= 1) {
     scale = 1;
-    translateX = 0;
-    translateY = 0;
-    lightboxImage.style.transform = 'translate(0,0) scale(1)';
+    img.style.transform = 'scale(1)';
+    img.style.transformOrigin = 'center center';
   }
 }, { passive: false });
 </script>
