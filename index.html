@@ -96,46 +96,73 @@
     <p>© Arist Deyn. All rights reserved.</p>
   </footer>
 
-<!-- Lightbox overlay (only once!) -->
+<!-- Lightbox overlay -->
 <div id="lightbox-overlay">
   <img id="lightbox-image" src="" alt="Expanded view">
 </div>
 
-<!-- Lightbox script -->
 <script>
-const lightboxOverlay = document.getElementById('lightbox-overlay');
-const lightboxImage = document.getElementById('lightbox-image');
+const overlay = document.getElementById('lightbox-overlay');
+const img = document.getElementById('lightbox-image');
 const links = document.querySelectorAll('.lightbox-link');
 
-let scale = 1; // current zoom level
+let scale = 1;      // zoom level
+let posX = 0;       // horizontal translation
+let posY = 0;       // vertical translation
+let isDragging = false;
+let startX = 0;
+let startY = 0;
 
 // Open lightbox
 links.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    lightboxImage.src = link.href;
-    scale = 1; // reset zoom
-    lightboxImage.style.transform = `scale(${scale})`;
-    lightboxOverlay.style.display = 'flex';
+    img.src = link.href;
+    scale = 1;
+    posX = 0;
+    posY = 0;
+    img.style.transform = `scale(${scale}) translate(0px, 0px)`;
+    overlay.style.display = 'flex';
   });
 });
 
-// Close lightbox on click
-lightboxOverlay.addEventListener('click', () => {
-  lightboxOverlay.style.display = 'none';
-  scale = 1;
-  lightboxImage.style.transform = 'scale(1)';
+// Close lightbox
+overlay.addEventListener('click', e => {
+  if (e.target !== img) { // only close if clicking outside image
+    overlay.style.display = 'none';
+    scale = 1;
+    posX = 0;
+    posY = 0;
+    img.style.transform = `scale(1) translate(0px,0px)`;
+  }
 });
 
-// Scroll-to-zoom
-lightboxOverlay.addEventListener('wheel', e => {
-  e.preventDefault(); // prevent background scroll
-  const delta = e.deltaY < 0 ? 0.1 : -0.1; // zoom in/out
+// Zoom with scroll
+overlay.addEventListener('wheel', e => {
+  e.preventDefault();
+  const delta = e.deltaY < 0 ? 0.1 : -0.1;
   scale += delta;
-  if (scale < 0.5) scale = 0.5; // minimum zoom
-  if (scale > 1.5) scale = 1.5;     // maximum zoom
-  lightboxImage.style.transform = `scale(${scale})`;
+  scale = Math.min(Math.max(scale, 0.5), 3); // clamp between 0.5 and 3
+  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
 }, { passive: false });
+
+// Drag to move
+img.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX = e.clientX - posX;
+  startY = e.clientY - posY;
+});
+
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  posX = e.clientX - startX;
+  posY = e.clientY - startY;
+  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+});
 </script>
 </body>
 </html>
