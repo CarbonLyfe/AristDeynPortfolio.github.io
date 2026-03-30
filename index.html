@@ -96,64 +96,46 @@
     <p>© Arist Deyn. All rights reserved.</p>
   </footer>
 
-  <!-- Lightbox overlay -->
-  <div id="lightbox-overlay">
-    <img id="lightbox-image" src="" alt="">
-  </div>
-
-  <!-- Lightbox script -->
-  <script>
-    const lightboxOverlay = document.getElementById('lightbox-overlay');
-    const lightboxImage = document.getElementById('lightbox-image');
-    const links = document.querySelectorAll('.lightbox-link');
-
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        lightboxImage.src = link.href;
-        lightboxOverlay.style.display = 'flex';
-      });
-    });
-
-    lightboxOverlay.addEventListener('click', () => {
-      lightboxOverlay.style.display = 'none';
-    });
-  </script>
-  <div id="lightbox-overlay">
+<!-- Lightbox overlay (only once!) -->
+<div id="lightbox-overlay">
   <img id="lightbox-image" src="" alt="Expanded view">
 </div>
-  <script>
+
+<!-- Lightbox script -->
+<script>
 const lightboxOverlay = document.getElementById('lightbox-overlay');
 const lightboxImage = document.getElementById('lightbox-image');
 const links = document.querySelectorAll('.lightbox-link');
 
+let scale = 1; // current zoom level
+
+// Open lightbox
 links.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    lightboxImage.src = link.href;    // set the overlay image
-    lightboxOverlay.style.display = 'flex';  // show overlay
+    lightboxImage.src = link.href;
+    scale = 1; // reset zoom
+    lightboxImage.style.transform = `scale(${scale})`;
+    lightboxOverlay.style.display = 'flex';
   });
 });
 
+// Close lightbox on click
 lightboxOverlay.addEventListener('click', () => {
-  lightboxOverlay.style.display = 'none'; // hide overlay when clicked
-});
-let scale = 1; // default zoom
-
-// Zoom with scroll wheel
-lightboxOverlay.addEventListener('wheel', e => {
-  e.preventDefault(); // stop page scrolling
-  const delta = e.deltaY < 0 ? 0.1 : -0.1; // zoom in/out
-  scale += delta;
-  if (scale < 0.5) scale = 0.5; // min zoom
-  if (scale > 3) scale = 3;     // max zoom
-  lightboxImage.style.transform = `scale(${scale})`;
-}, { passive: false }); // <--- critical part
-    lightboxOverlay.addEventListener('click', () => {
   lightboxOverlay.style.display = 'none';
   scale = 1;
   lightboxImage.style.transform = 'scale(1)';
 });
+
+// Scroll-to-zoom
+lightboxOverlay.addEventListener('wheel', e => {
+  e.preventDefault(); // prevent background scroll
+  const delta = e.deltaY < 0 ? 0.1 : -0.1; // zoom in/out
+  scale += delta;
+  if (scale < 0.5) scale = 0.5; // minimum zoom
+  if (scale > 3) scale = 3;     // maximum zoom
+  lightboxImage.style.transform = `scale(${scale})`;
+}, { passive: false });
 </script>
 </body>
 </html>
