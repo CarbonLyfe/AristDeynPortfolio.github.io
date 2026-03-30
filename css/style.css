@@ -131,21 +131,23 @@ footer {
     border-bottom: 1px solid #333;
   }
 }
+
 /* Lightbox overlay */
 #lightbox-overlay {
-  display: none;               /* hidden by default */
-  position: fixed;
+  display: none;                 /* hidden by default */
+  position: fixed;               /* fixed to viewport */
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  width: 100vw;                  /* full viewport width */
+  height: 100vh;                 /* full viewport height */
+  background: rgba(0,0,0,0.85); /* semi-transparent dark background */
+  justify-content: center;       /* center horizontally */
+  align-items: center;           /* center vertically */
+  z-index: 1000;                 /* above all content */
   cursor: zoom-out;
 }
 
+/* The full-size image inside the overlay */
 #lightbox-overlay img {
   max-width: 90%;
   max-height: 90%;
