@@ -133,7 +133,7 @@ lightboxOverlay.addEventListener('wheel', e => {
   const delta = e.deltaY < 0 ? 0.1 : -0.1; // zoom in/out
   scale += delta;
   if (scale < 0.5) scale = 0.5; // minimum zoom
-  if (scale > 3) scale = 3;     // maximum zoom
+  if (scale > 1.5) scale = 1.5;     // maximum zoom
   lightboxImage.style.transform = `scale(${scale})`;
 }, { passive: false });
 </script>
