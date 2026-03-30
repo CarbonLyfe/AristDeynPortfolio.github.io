@@ -7,9 +7,10 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  font-weight: 400;
   line-height: 1.6;
-  color: #eaeaea;          /* light text for contrast */
-  background: #1f1f1f;     /* dark grey background */
+  color: #eaeaea;
+  background: #1f1f1f;
 }
 
 header {
@@ -20,8 +21,11 @@ header {
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 2.4rem;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 header p {
@@ -40,17 +44,21 @@ main {
 }
 
 .portfolio-section h2 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 .section-description {
-  font-size: 0.95rem;   /* smaller than default */
-  color: #bbbbbb;       /* softer contrast */
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #b5b5b5;
   max-width: 700px;
-  margin: 0 auto 1.5rem auto;  /* centers the paragraph */
-  text-align: center;          /* optional, for symmetry */
+  margin: 0 auto 1.5rem auto;
+  text-align: center;
 }
 
 .image-grid {
@@ -79,8 +87,9 @@ main {
 
 .image-caption {
   padding: 0.5rem;
-  font-size: 0.9rem;
-  color: #444;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #999;
   text-align: center;
 }
 
