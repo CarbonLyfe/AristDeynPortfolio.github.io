@@ -138,6 +138,16 @@ links.forEach(link => {
 lightboxOverlay.addEventListener('click', () => {
   lightboxOverlay.style.display = 'none'; // hide overlay when clicked
 });
+    let scale = 1; // default zoom level
+
+lightboxOverlay.addEventListener('wheel', e => {
+  e.preventDefault(); // prevent page scrolling
+  const delta = e.deltaY < 0 ? 0.1 : -0.1; // zoom in or out
+  scale += delta;
+  if (scale < 0.5) scale = 0.5;  // minimum zoom
+  if (scale > 3) scale = 3;      // maximum zoom
+  lightboxImage.style.transform = `scale(${scale})`;
+});
 </script>
 </body>
 </html>
