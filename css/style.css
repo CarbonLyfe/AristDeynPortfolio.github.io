@@ -54,26 +54,31 @@ header p {
   text-justify: inter-word;
   hyphens: auto;
 }
-/* Header quotes */
+/* ── HEADER QUOTES ── */
 .header-quote {
-  font-family: 'Georgia', serif;   /* A readable serif for quotes */
+  font-family: 'Georgia', serif;       /* elegant, readable serif */
   font-style: italic;
-  font-size: 0.95rem;              /* Slightly smaller than main text */
-  line-height: 1.4;                /* Tight enough for compact look */
-  color: #dcdcdc;
-  margin: 1.5rem 0;
-  padding-left: 1rem;              /* optional subtle indentation */
-  border-left: 3px solid #555;     /* subtle visual marker for blockquote */
+  font-size: 0.92rem;                  /* slightly smaller than main text */
+  line-height: 1.45;                   /* airy but compact */
+  color: #cfcfcf;                      /* softer than main text for secondary feel */
+  margin: 2rem 0;                       /* clear separation between quotes */
+  padding-left: 1rem;
+  border-left: 3px solid #555;         /* subtle visual marker */
+}
+
+.header-quote + .header-quote {
+  margin-top: 1.5rem;                  /* extra separation between two quotes */
 }
 
 .header-quote cite {
   display: block;
-  font-family: 'Courier New', monospace; /* Different font for citation */
+  font-family: 'Courier New', monospace;  /* differentiates citation from quote */
   font-style: normal;
   font-weight: 500;
-  color: #aaa;
-  margin-top: 0.25rem;
+  color: #999;                            /* slightly dimmer than quote */
+  margin-top: 0.5rem;
   font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }
 /* MAIN */
 main {
