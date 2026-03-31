@@ -18,67 +18,46 @@ body {
   background: #1f1f1f;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;      /* vertically centers content in viewport initially */
   text-align: left;
   width: 320px;
-  padding: 3rem 2rem;
+  padding: 2rem;
   background: #1a1a1a;
   border-right: 1px solid #333;
 
   position: sticky;
   top: 0;
-
-  /* allow content to expand */
   min-height: 100vh;
-  overflow-y: auto;  /* <--- key change */
+  overflow-y: auto;
 }
 
 header h1 {
   font-family: 'Source Sans 3', sans-serif;
-  font-weight: 600;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 2.5rem;           /* bigger title */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
 }
 
-/* ── HEADER DESCRIPTION ── */
+/* stack each word */
+header h1 span {
+  display: block;
+}
+
+/* description under title */
 header p {
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  color: #e0e0e0;           /* main description slightly brighter than quotes */
-  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  margin-top: 0;
   line-height: 1.6;
-  text-align: left;          /* remove justified block */
+  text-align: left;
   hyphens: auto;
-}
-
-/* ── HEADER QUOTES ── */
-.header-quote {
-  font-family: 'Georgia', serif;       /* elegant serif */
-  font-style: italic;
-  font-size: 0.82rem;                  /* smaller than description */
-  line-height: 1.45;                   /* airy but compact */
-  color: #888;                          /* softer than description */
-  margin: 2rem 0 1rem 0;                /* spacing from other elements */
-  padding-left: 1rem;                  /* subtle indent */
-  border-left: 2px solid #555;        /* subtle marker */
-}
-
-.header-quote + .header-quote {
-  margin-top: 2rem;                     /* clear separation between two quotes */
-}
-
-.header-quote cite {
-  display: block;
-  font-family: 'Courier New', monospace;  /* distinct for citation */
-  font-style: normal;
-  font-weight: 400;
-  color: #666;                            /* dimmer than quote text */
-  margin-top: 0.25rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.3px;
 }
 /* MAIN */
 main {
