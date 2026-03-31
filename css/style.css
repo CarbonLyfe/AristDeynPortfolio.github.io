@@ -48,7 +48,18 @@ header h1 {
 header h1 span {
   display: block;
 }
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* start from top */
+  height: auto;                
+  margin-top: 20vh;            /* adjust this % to find the “in between” vertical position */
+}
 
+header h1 {
+  font-size: 2.5rem;          /* bigger main title */
+  line-height: 1.1;           /* tighter for stacked words */
+}
 /* description under title */
 header p {
   font-family: 'Inter', sans-serif;
