@@ -154,7 +154,7 @@ lightboxOverlay.addEventListener('wheel', e => {
   const offsetY = e.clientY - rect.top;
 
   const delta = e.deltaY < 0 ? 0.1 : -0.1;
-  const newScale = Math.min(Math.max(scale + delta, 0.5), 3); // clamp scale
+ const newScale = Math.min(Math.max(scale + delta, 1), 5);
 
   // adjust translation to keep cursor point under zoom
   translateX -= (offsetX / scale - offsetX / newScale);
