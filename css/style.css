@@ -104,11 +104,12 @@ main {
 /* ── FOOTER ── */
 footer {
   text-align: center;
-  padding: 2rem;
-  background: #fff;
-  border-top: 1px solid #eee;
-  color: #777;
-  font-size: 0.9rem;
+  padding: 1.5rem 2rem;       /* slightly smaller padding */
+  background: #1a1a1a;        /* same dark tone as header */
+  border-top: 1px solid #333; /* subtle divider */
+  color: #aaa;                /* light gray, not stark white */
+  font-size: 0.8rem;          /* smaller font */
+  font-weight: 400;           /* normal weight for subtlety */
 }
 
 /* ── RESPONSIVE ── */
