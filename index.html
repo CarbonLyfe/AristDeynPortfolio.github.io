@@ -147,20 +147,46 @@ lightboxOverlay.addEventListener('click', () => {
 
 // Zoom with scroll wheel around cursor
 lightboxOverlay.addEventListener('wheel', e => {
-links.forEach(link => {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    lightboxImage.src = this.href;
-    lightboxOverlay.style.display = 'flex';
+  if (!lightboxImage.src) return;
 
+  const rect = lightboxImage.getBoundingClientRect();
+
+  const offsetX = e.clientX - rect.left;
+  const offsetY = e.clientY - rect.top;
+
+  const delta = e.deltaY < 0 ? 0.05 : -0.05;
+
+  // SAFE: only compute after image is loaded
+  const naturalWidth = lightboxImage.naturalWidth;
+  const naturalHeight = lightboxImage.naturalHeight;
+
+  if (!naturalWidth || !naturalHeight) return;
+
+  const maxScaleX = naturalWidth / rect.width;
+  const maxScaleY = naturalHeight / rect.height;
+  const maxScale = Math.max(maxScaleX, maxScaleY);
+
+  const newScale = Math.min(Math.max(scale + delta, 1), maxScale);
+
+  translateX -= (offsetX / scale - offsetX / newScale);
+  translateY -= (offsetY / scale - offsetY / newScale);
+
+  scale = newScale;
+
+  lightboxImage.style.transform =
+    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+  // snap back to fitted state
+  if (scale <= 1) {
     scale = 1;
     translateX = 0;
     translateY = 0;
     lightboxImage.style.transform = 'translate(0,0) scale(1)';
-  });
-});
+  }
 
+}, { passive: false });
   const rect = lightboxImage.getBoundingClientRect();
   const offsetX = e.clientX - rect.left;
   const offsetY = e.clientY - rect.top;
