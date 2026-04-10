@@ -106,63 +106,106 @@
 <script>
 const lightboxOverlay = document.getElementById('lightbox-overlay');
 const lightboxImage = document.getElementById('lightbox-image');
-const links = document.querySelectorAll('.lightbox-link');
+const links = Array.from(document.querySelectorAll('.lightbox-link'));
+
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+let currentIndex = 0;
 
 let scale = 1;
 let translateX = 0;
 let translateY = 0;
+
 let isDragging = false;
 let startX = 0;
 let startY = 0;
 
-// Disable default drag
+// Disable ghost drag
 lightboxImage.addEventListener('dragstart', e => e.preventDefault());
 
-// Open lightbox
-links.forEach(link => {
+/* ---------------- OPEN ---------------- */
+links.forEach((link, index) => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    lightboxImage.src = link.href;
-    lightboxOverlay.style.display = 'flex';
-    scale = 1;
-    translateX = 0;
-    translateY = 0;
-    lightboxImage.style.transform = 'translate(0px,0px) scale(1)';
+
+    currentIndex = index;
+    openImage();
   });
 });
 
-// Close lightbox by clicking outside image
+function openImage() {
+  lightboxImage.src = links[currentIndex].href;
+  lightboxOverlay.style.display = 'flex';
+
+  resetTransform();
+}
+
+function resetTransform() {
+  scale = 1;
+  translateX = 0;
+  translateY = 0;
+  lightboxImage.style.transform = 'translate(0px,0px) scale(1)';
+}
+
+/* ---------------- CLOSE ---------------- */
 lightboxOverlay.addEventListener('click', e => {
-  if (e.target !== lightboxImage) lightboxOverlay.style.display = 'none';
+  if (e.target === lightboxOverlay) {
+    lightboxOverlay.style.display = 'none';
+  }
 });
 
-// Panning with mouse drag
+/* ---------------- NAVIGATION ---------------- */
+prevBtn.addEventListener('click', e => {
+  e.stopPropagation();
+
+  currentIndex = (currentIndex - 1 + links.length) % links.length;
+  openImage();
+});
+
+nextBtn.addEventListener('click', e => {
+  e.stopPropagation();
+
+  currentIndex = (currentIndex + 1) % links.length;
+  openImage();
+});
+
+/* ---------------- PANNING ---------------- */
 lightboxImage.addEventListener('mousedown', e => {
   e.preventDefault();
+
   isDragging = true;
   startX = e.clientX - translateX;
   startY = e.clientY - translateY;
+
   lightboxImage.style.cursor = 'grabbing';
 });
 
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
+
   translateX = e.clientX - startX;
   translateY = e.clientY - startY;
-  lightboxImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+  lightboxImage.style.transform =
+    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 });
 
 window.addEventListener('mouseup', () => {
-  if (isDragging) lightboxImage.style.cursor = 'grab';
+  if (isDragging) {
+    lightboxImage.style.cursor = 'grab';
+  }
   isDragging = false;
 });
 
-// Zoom with scroll wheel
+/* ---------------- ZOOM ---------------- */
 lightboxOverlay.addEventListener('wheel', e => {
   e.preventDefault();
+
   if (!lightboxImage.src) return;
 
   const rect = lightboxImage.getBoundingClientRect();
+
   const offsetX = e.clientX - rect.left;
   const offsetY = e.clientY - rect.top;
 
@@ -170,6 +213,7 @@ lightboxOverlay.addEventListener('wheel', e => {
 
   const naturalWidth = lightboxImage.naturalWidth;
   const naturalHeight = lightboxImage.naturalHeight;
+
   if (!naturalWidth || !naturalHeight) return;
 
   const maxScaleX = naturalWidth / rect.width;
@@ -182,8 +226,11 @@ lightboxOverlay.addEventListener('wheel', e => {
   translateY -= (offsetY / scale - offsetY / newScale);
 
   scale = newScale;
-  lightboxImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-});
+
+  lightboxImage.style.transform =
+    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+}, { passive: false });
+
 </script>
 </body>
 </html>
