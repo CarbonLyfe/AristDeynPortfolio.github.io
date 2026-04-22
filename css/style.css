@@ -279,12 +279,12 @@ footer {
 
 
 
-.sequential-grid .image-item {
-  aspect-ratio: 3 / 4;
+.sequential-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
 }
 
-.sequential-grid .image-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.sequential-grid .image-item {
+  flex: 0 0 calc(33.333% - 0.67rem);
 }
